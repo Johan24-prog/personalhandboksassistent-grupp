@@ -1,1 +1,27 @@
 # Personalhandboksassistent
+
+## Konfigurera .env
+
+Skapa en `.env`-fil i projektroten. Appen läser in filen vid start. Ersätt värdena inom `<...>` med dina Azure-värden. `.env` är ignorerad av Git och ska inte checkas in.
+
+```dotenv
+# Krävs för att chatten ska kunna anropa Azure OpenAI
+AZURE_OPENAI_ENDPOINT=https://<resurs>.openai.azure.com
+AZURE_OPENAI_API_KEY=<api-nyckel>
+AZURE_OPENAI_CHAT_DEPLOYMENT=<namn-på-chattdeployment>
+AZURE_OPENAI_API_VERSION=2024-10-21
+
+# Avsedda för Azure Blob Storage
+AZURE_STORAGE_CONNECTION_STRING=<anslutningssträng>
+AZURE_STORAGE_CONTAINER_NAME=<containernamn>
+
+# Avsedda för Azure AI Search
+AZURE_SEARCH_ENDPOINT=https://<sökresurs>.search.windows.net
+AZURE_SEARCH_API_KEY=<api-nyckel>
+AZURE_SEARCH_INDEX_NAME=<indexnamn>
+
+# Reserverad för framtida vektorsökning; används inte ännu
+AZURE_OPENAI_EMBEDDING_DEPLOYMENT=<namn-på-embeddingdeployment>
+```
+
+`AZURE_OPENAI_API_VERSION` är valfri och standardvärdet är `2024-10-21`. Blob Storage och AI Search är ännu inte inkopplade i dokumentflödet; deras variabler används för närvarande bara för att visa konfigurationsstatus.
