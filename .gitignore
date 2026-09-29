@@ -1,0 +1,28 @@
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# .NET build output
+[Bb]in/
+[Oo]bj/
+[Aa]rtifacts/
+[Tt]est[Rr]esults/
+
+# IDE files
+.vs/
+.idea/
+*.user
+*.suo
+*.csproj.user
+*.sln.docstates
+
+# Logs and OS files
+*.log
+Thumbs.db
+Desktop.ini
+
+# Runtime document uploads (keep source documents under Documents/ tracked)
+uploads/
+data/uploads/
+App_Data/uploads/
