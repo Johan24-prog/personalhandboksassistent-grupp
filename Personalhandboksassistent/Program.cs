@@ -17,7 +17,23 @@ var app = builder.Build();
 
 // Servera webbgränssnittet från wwwroot.
 app.UseDefaultFiles();
-app.UseStaticFiles();
+if (app.Environment.IsDevelopment())
+{
+    // Undviker att webbläsaren cachar gamla HTML/CSS/JS-versioner under utveckling.
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        OnPrepareResponse = context =>
+        {
+            context.Context.Response.Headers.CacheControl = "no-cache, no-store, must-revalidate";
+            context.Context.Response.Headers.Pragma = "no-cache";
+            context.Context.Response.Headers.Expires = "0";
+        },
+    });
+}
+else
+{
+    app.UseStaticFiles();
+}
 
 // Varje grupp samlar API-rutter för ett eget område.
 app.MapStatusEndpoints();

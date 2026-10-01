@@ -25,3 +25,5 @@ AZURE_OPENAI_EMBEDDING_DEPLOYMENT=<namn-på-embeddingdeployment>
 ```
 
 `AZURE_OPENAI_API_VERSION` är valfri och standardvärdet är `2024-10-21`. Blob Storage och AI Search är ännu inte inkopplade i dokumentflödet; deras variabler används för närvarande bara för att visa konfigurationsstatus.
+
+TIP: Hård uppdatering i din webbläsare en gång för att tömma den gamla cachade versionen. (Ctrl+Shift+R eller Ctrl+F5)
