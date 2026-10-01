@@ -1,0 +1,42 @@
+<!-- Huvudmeny och programmets namn. -->
+<aside class="sidebar" aria-label="Huvudmeny">
+  <a class="brand" href="#assistant" aria-label="Personalhandbok, startsida">
+    <span class="brand-mark">P<span>.</span></span>
+    <span class="brand-copy"
+      ><strong>personal</strong><small>HANDBOK</small></span
+    >
+  </a>
+
+  <div class="workspace-label">ARBETSPLATS</div>
+  <nav class="main-nav">
+    <button
+      class="nav-link is-active"
+      type="button"
+      data-view="overview"
+      aria-current="page"
+    >
+      <span class="nav-icon icon-home" aria-hidden="true">⌂</span
+      ><span>Översikt</span>
+    </button>
+    <button class="nav-link" type="button" data-view="assistant">
+      <span class="nav-icon icon-spark" aria-hidden="true">✳</span
+      ><span>Assistent</span>
+    </button>
+    <button class="nav-link" type="button" data-view="documents">
+      <span class="nav-icon" aria-hidden="true">▤</span><span>Dokument</span
+      ><span class="nav-count" id="nav-document-count">0</span>
+    </button>
+    <button class="nav-link" type="button" data-view="sources">
+      <span class="nav-icon" aria-hidden="true">⌘</span
+      ><span>Källor &amp; status</span>
+    </button>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <div class="privacy-note">
+      <span class="privacy-dot"></span
+      ><span>Internt innehåll<br /><strong>Endast för personal</strong></span>
+    </div>
+    <div class="sidebar-foot">PERSONALHANDBOK <span>·</span> PROTOTYP</div>
+  </div>
+</aside>

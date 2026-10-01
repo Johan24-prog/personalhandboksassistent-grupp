@@ -1,0 +1,62 @@
+<!-- Startsida med snabb överblick och genvägar till övriga flikar. -->
+<section class="view overview-view is-hidden" id="overview-view">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow"><span class="eyebrow-line"></span> STARTSIDA</div>
+      <h1>Välkommen tillbaka</h1>
+      <p>
+        En snabb överblick över assistenten, underlaget och tjänsternas status.
+      </p>
+    </div>
+  </div>
+
+  <div class="overview-grid">
+    <div class="overview-card">
+      <span class="overview-card-label">Dokument totalt</span>
+      <span class="overview-card-value" id="overview-document-count">0</span>
+      <p>Allt som laddats upp till dokumentbiblioteket.</p>
+    </div>
+    <div class="overview-card">
+      <span class="overview-card-label">Läsbara underlag</span>
+      <span class="overview-card-value" id="overview-readable-count">0</span>
+      <p>Dokument som assistenten kan använda i sina svar.</p>
+    </div>
+    <div class="overview-card">
+      <span class="overview-card-label">AI-anslutning</span>
+      <span class="overview-card-value overview-status">
+        <span class="status-light" id="overview-connection-light"></span
+        ><span id="overview-connection-text">Kontrollerar</span>
+      </span>
+      <p>Status för kopplingen mot Azure OpenAI.</p>
+    </div>
+  </div>
+
+  <div class="overview-actions">
+    <div class="section-kicker">SNABBVAL</div>
+    <div class="overview-shortcuts">
+      <button type="button" class="overview-shortcut" data-go="assistant">
+        <span class="nav-icon icon-spark" aria-hidden="true">✳</span>
+        <span class="overview-shortcut-copy"
+          ><strong>Fråga assistenten</strong
+          ><small
+            >Ställ en personalfråga och få ett förankrat svar.</small
+          ></span
+        ><span class="shortcut-arrow" aria-hidden="true">↗</span>
+      </button>
+      <button type="button" class="overview-shortcut" data-go="documents">
+        <span class="nav-icon" aria-hidden="true">▤</span>
+        <span class="overview-shortcut-copy"
+          ><strong>Hantera dokument</strong
+          ><small>Ladda upp, ersätt eller ta bort underlag.</small></span
+        ><span class="shortcut-arrow" aria-hidden="true">↗</span>
+      </button>
+      <button type="button" class="overview-shortcut" data-go="sources">
+        <span class="nav-icon" aria-hidden="true">⌘</span>
+        <span class="overview-shortcut-copy"
+          ><strong>Källor och status</strong
+          ><small>Se vilka tjänster som är konfigurerade.</small></span
+        ><span class="shortcut-arrow" aria-hidden="true">↗</span>
+      </button>
+    </div>
+  </div>
+</section>

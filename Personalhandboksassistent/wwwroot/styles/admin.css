@@ -1,0 +1,172 @@
+/* Tjänsternas status och dokumentformat */
+.sources-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 28px;
+  align-items: start;
+}
+.sources-aside {
+  display: grid;
+  gap: 20px;
+}
+.admin-aside {
+  padding: 24px 24px 22px;
+  border: 1px solid #e0e7df;
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: 0 10px 30px rgba(43, 69, 53, 0.04);
+}
+.aside-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.aside-icon {
+  color: #79907e;
+  font-size: 17px;
+}
+.aside-description {
+  margin: 10px 0 14px;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+.service-list {
+  border-top: 1px solid #e6ebe5;
+}
+.service-row {
+  display: grid;
+  grid-template-columns: 25px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  border-bottom: 1px solid #e6ebe5;
+}
+.service-mark {
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  border-radius: 5px;
+  background: #edf3eb;
+  color: #456b4f;
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 700;
+}
+.search-mark {
+  background: #f1f0e7;
+  color: #8a8152;
+  font-size: 19px;
+}
+.openai-mark {
+  background: #f7ede5;
+  color: #b16c4e;
+}
+.service-name {
+  color: #58655c;
+  font-size: 13px;
+  font-weight: 600;
+}
+.service-name small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+.service-state {
+  color: #5e6960;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-align: right;
+}
+.service-state.is-configured {
+  color: #527c58;
+}
+.service-state.is-missing {
+  color: #8a6a3f;
+}
+.prototype-note {
+  display: flex;
+  gap: 10px;
+  padding: 16px 16px;
+  border-radius: 9px;
+  background: #f7f3e9;
+}
+.note-mark {
+  display: grid;
+  place-items: center;
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  border: 1px solid #d6c79f;
+  border-radius: 50%;
+  color: #957f47;
+  font-family: Georgia, serif;
+  font-size: 10px;
+  font-style: italic;
+}
+.prototype-note p {
+  margin: 0;
+  color: #5c5139;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.prototype-note strong {
+  display: block;
+  margin-bottom: 3px;
+  color: #473e2a;
+  font-size: 12px;
+  font-weight: 600;
+}
+.format-legend {
+  display: grid;
+  gap: 11px;
+  padding: 18px 18px 20px;
+  border: 1px solid #e0e7df;
+  border-radius: 9px;
+  background: var(--paper);
+}
+.format-legend > .section-kicker {
+  margin-bottom: 1px;
+}
+.format-legend > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #3b453f;
+  font-size: 12px;
+}
+.format-legend small {
+  margin-left: 2px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.legend-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+.legend-dot.ready {
+  background: #6c9a6a;
+}
+.legend-dot.pending {
+  background: #d29a64;
+}
+.inline-alert {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px solid #efd8cf;
+  border-radius: 6px;
+  background: #fff6f1;
+  color: #883a29;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.inline-alert.success {
+  border-color: #d6e5d2;
+  background: #f2f8ef;
+  color: #4b7652;
+}

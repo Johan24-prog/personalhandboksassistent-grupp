@@ -1,0 +1,85 @@
+/* Bekräftelseruta och gemensamma kontroller */
+.confirm-dialog {
+  width: min(390px, calc(100% - 32px));
+  padding: 26px;
+  border: 1px solid #dfe6df;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 22px 70px rgba(22, 44, 31, 0.2);
+}
+.confirm-dialog::backdrop {
+  background: rgba(21, 39, 28, 0.35);
+  backdrop-filter: blur(2px);
+}
+.confirm-dialog form {
+  position: absolute;
+  top: 12px;
+  right: 13px;
+}
+.dialog-close {
+  border: 0;
+  background: transparent;
+  color: #89958d;
+  font-size: 21px;
+  cursor: pointer;
+}
+.dialog-icon {
+  display: grid;
+  place-items: center;
+  width: 31px;
+  height: 31px;
+  border-radius: 50%;
+  background: #fbefeb;
+  color: #bd664f;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+}
+.confirm-dialog h2 {
+  margin: 17px 0 7px;
+  font-family: var(--display);
+  font-size: 21px;
+  font-weight: 700;
+}
+.confirm-dialog p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 23px;
+}
+.button-secondary,
+.button-danger {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid #dce4dc;
+  border-radius: 6px;
+  background: white;
+  color: #45504a;
+  font-size: 13px;
+  cursor: pointer;
+}
+.button-danger {
+  border-color: #b95f49;
+  background: #b95f49;
+  color: white;
+}
+.button-danger:hover {
+  background: #a74f3b;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -1,0 +1,44 @@
+/* Typsnitt, designvariabler och grundregler */
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+
+:root {
+  color-scheme: light;
+  --ink: #1d2824;
+  --muted: #566058;
+  --line: #e4e9e3;
+  --canvas: #f4f6f2;
+  --paper: #ffffff;
+  --pine: #245a46;
+  --pine-deep: #193e32;
+  --lime: #d8ef89;
+  --coral: #d56f55;
+  --soft-green: #eef4ed;
+  --mono: "DM Mono", "Courier New", monospace;
+  --body: "DM Sans", "Segoe UI", sans-serif;
+  --display: "Manrope", "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+}
+button,
+textarea {
+  font: inherit;
+}
+button {
+  color: inherit;
+}
+button:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 2px solid #6b987e;
+  outline-offset: 3px;
+}

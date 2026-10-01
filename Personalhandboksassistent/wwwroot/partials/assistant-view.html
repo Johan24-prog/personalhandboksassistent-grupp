@@ -1,0 +1,128 @@
+<!-- Assistentens konversation och sammanfattning av underlaget. -->
+<section class="view assistant-view" id="assistant-view">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">
+        <span class="eyebrow-line"></span> PERSONALHANDBOKEN
+      </div>
+      <h1>Hej, vad undrar du?</h1>
+      <p>
+        Fråga om rutiner, ledighet eller arbetslivet. Svaren grundas i era
+        dokument.
+      </p>
+    </div>
+    <div class="heading-stamp">
+      <span class="stamp-star">✳</span
+      ><span>SVENSK<br />PERSONAL-<br />ASSISTENT</span>
+    </div>
+  </div>
+
+  <div class="assistant-layout">
+    <div class="chat-column">
+      <div class="chat-panel">
+        <div
+          class="conversation"
+          id="conversation"
+          aria-live="polite"
+          aria-label="Konversation"
+        >
+          <div class="welcome-message" id="welcome-message">
+            <div class="assistant-avatar" aria-hidden="true">
+              P<span>·</span>
+            </div>
+            <div class="welcome-copy">
+              <strong>Din handbok, samlad.</strong>
+              <p>
+                Jag svarar på personalfrågor med stöd i uppladdade dokument.
+                Saknas stöd i underlaget säger jag det.
+              </p>
+            </div>
+          </div>
+          <div class="suggestion-label" id="suggestion-label">BÖRJA HÄR</div>
+          <div class="suggestions" id="suggestions">
+            <button
+              type="button"
+              class="suggestion"
+              data-question="Hur fungerar semester och ledighet?"
+            >
+              Hur fungerar semester och ledighet?<span>↗</span>
+            </button>
+            <button
+              type="button"
+              class="suggestion"
+              data-question="Vad gäller vid sjukfrånvaro?"
+            >
+              Vad gäller vid sjukfrånvaro?<span>↗</span>
+            </button>
+            <button
+              type="button"
+              class="suggestion"
+              data-question="Vilka förmåner erbjuds?"
+            >
+              Vilka förmåner erbjuds?<span>↗</span>
+            </button>
+          </div>
+        </div>
+        <form class="chat-composer" id="chat-form">
+          <label class="sr-only" for="question-input"
+            >Skriv din personalfråga</label
+          >
+          <textarea
+            id="question-input"
+            name="question"
+            rows="1"
+            maxlength="2000"
+            placeholder="Ställ en fråga om personal och arbetsliv…"
+            required
+          ></textarea>
+          <div class="composer-footer">
+            <span
+              ><span class="composer-lock">▣</span> Svar med stöd i
+              handboken</span
+            ><button
+              class="send-button"
+              type="submit"
+              aria-label="Skicka fråga"
+              title="Skicka fråga"
+            >
+              ↑
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="chat-footnote">
+        AI kan göra fel. Kontrollera alltid viktiga beslut mot källan.
+      </div>
+    </div>
+
+    <aside class="sources-column" aria-label="Kunskapsunderlag">
+      <div class="section-kicker">
+        KUNSKAPSUNDERLAG <span class="kicker-rule"></span>
+      </div>
+      <div class="source-summary">
+        <span class="source-count" id="readable-count">0</span
+        ><span>läsbara<br />underlag</span>
+      </div>
+      <div class="source-list" id="assistant-source-list">
+        <div class="empty-source">
+          Lägg till Markdown- eller textdokument för att ge assistenten
+          underlag.
+        </div>
+      </div>
+      <button class="text-link" type="button" data-go="documents">
+        Hantera dokument <span>↗</span>
+      </button>
+      <div class="source-divider"></div>
+      <div class="guardrail">
+        <span class="guardrail-symbol">✓</span>
+        <div>
+          <strong>Förankrade svar</strong>
+          <p>
+            Assistenten hänvisar till källdokument och avstår när underlag
+            saknas.
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,209 @@
+/* Assistentens konversation och frågefält */
+.assistant-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 236px;
+  gap: 31px;
+  align-items: start;
+}
+.chat-column {
+  min-width: 0;
+}
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 466px;
+  border: 1px solid #e5eae4;
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: 0 9px 30px rgba(43, 69, 53, 0.035);
+}
+.conversation {
+  flex: 1;
+  padding: 27px 27px 21px;
+}
+.welcome-message {
+  display: flex;
+  gap: 13px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #edf0ec;
+}
+.assistant-avatar {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px 10px 10px 3px;
+  background: var(--pine);
+  color: white;
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  flex: 0 0 auto;
+}
+.assistant-avatar span {
+  color: var(--lime);
+}
+.welcome-copy {
+  padding-top: 1px;
+}
+.welcome-copy strong {
+  color: #2a3931;
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+}
+.welcome-copy p {
+  max-width: 410px;
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.suggestion-label {
+  margin: 23px 0 10px;
+  color: #5e6960;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+.suggestions {
+  display: grid;
+  gap: 7px;
+}
+.suggestion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid #e8ede7;
+  border-radius: 6px;
+  background: #fcfdfb;
+  color: #536159;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    transform 0.15s;
+}
+.suggestion:hover {
+  transform: translateX(2px);
+  border-color: #b4c9b6;
+  background: #f6faf4;
+}
+.suggestion span {
+  color: var(--pine);
+  font-size: 15px;
+}
+.chat-message {
+  display: flex;
+  gap: 11px;
+  margin: 20px 0;
+  animation: enter 0.25s ease-out both;
+}
+.chat-message.user-message {
+  justify-content: flex-end;
+}
+.message-body {
+  max-width: min(86%, 590px);
+  padding: 13px 16px;
+  border-radius: 5px 11px 11px 11px;
+  background: #f2f5ef;
+  color: #35443b;
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.user-message .message-body {
+  border-radius: 10px 4px 10px 10px;
+  background: var(--pine);
+  color: white;
+}
+.message-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 9px;
+}
+.message-source {
+  padding: 3px 7px;
+  border-radius: 2px;
+  background: #e1ece0;
+  color: #476752;
+  font-family: var(--mono);
+  font-size: 10.5px;
+}
+.typing-indicator {
+  color: var(--muted);
+  font-size: 13.5px;
+}
+.chat-composer {
+  margin: 0 15px 15px;
+  padding: 11px 12px 9px 15px;
+  border: 1px solid #dfe6de;
+  border-radius: 5px;
+  background: #fff;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.chat-composer:focus-within {
+  border-color: #94b29c;
+  box-shadow: 0 0 0 3px rgba(67, 111, 78, 0.07);
+}
+.chat-composer textarea {
+  display: block;
+  width: 100%;
+  max-height: 110px;
+  min-height: 24px;
+  resize: none;
+  border: 0;
+  outline: 0;
+  color: var(--ink);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.chat-composer textarea::placeholder {
+  color: #a2aaa4;
+}
+.composer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11.5px;
+}
+.composer-lock {
+  color: #62816b;
+}
+.send-button {
+  display: grid;
+  place-items: center;
+  width: 29px;
+  height: 29px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--pine);
+  color: #fff;
+  font-size: 19px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    transform 0.15s;
+}
+.send-button:hover {
+  transform: translateY(-1px);
+  background: #34745a;
+}
+.send-button:disabled {
+  opacity: 0.45;
+  cursor: wait;
+}
+.chat-footnote {
+  margin: 11px 1px 0;
+  color: var(--muted);
+  font-size: 11.5px;
+}

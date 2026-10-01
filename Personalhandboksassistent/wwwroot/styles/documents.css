@@ -1,0 +1,117 @@
+/* Dokumentrader och tillgängliga åtgärder */
+.document-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 67px;
+  border-bottom: 1px solid #e2e8e1;
+  animation: enter 0.25s ease-out both;
+}
+.document-info {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+.document-file-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 40px;
+  flex: 0 0 auto;
+  border: 1px solid #dce6db;
+  border-radius: 5px;
+  background: #eef4ec;
+  color: #4c7153;
+  font-family: var(--mono);
+  font-size: 9.5px;
+}
+.document-file-icon.type-pdf,
+.document-file-icon.type-doc,
+.document-file-icon.type-docx {
+  border-color: #efded9;
+  background: #fbefeb;
+  color: #b36550;
+}
+.document-text {
+  min-width: 0;
+}
+.document-name {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  color: #35443b;
+  font-size: 14px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.document-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11.5px;
+}
+.document-meta .readable-tag {
+  color: #56805d;
+}
+.document-meta .pending-tag {
+  color: #ad765c;
+}
+.document-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 31px;
+  height: 31px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #5e6960;
+  font-size: 15px;
+  cursor: pointer;
+}
+.icon-button:hover {
+  border-color: #dce6dc;
+  background: #fff;
+  color: var(--pine);
+}
+.icon-button.delete-button:hover {
+  border-color: #f0ddd7;
+  background: #fff8f5;
+  color: #b45e49;
+}
+.empty-library {
+  display: grid;
+  justify-items: center;
+  padding: 35px 15px 30px;
+  color: var(--muted);
+  text-align: center;
+}
+.empty-library-mark {
+  display: grid;
+  place-items: center;
+  width: 39px;
+  height: 43px;
+  margin-bottom: 10px;
+  border: 1px solid #dce5dc;
+  border-radius: 4px;
+  color: #829687;
+  font-size: 20px;
+}
+.empty-library strong {
+  color: #2f3b35;
+  font-size: 14px;
+  font-weight: 600;
+}
+.empty-library p {
+  margin: 5px 0 0;
+  font-size: 12.5px;
+}

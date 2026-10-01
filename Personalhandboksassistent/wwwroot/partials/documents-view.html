@@ -1,0 +1,62 @@
+<!-- Uppladdning, dokumentlista och status för tjänsterna. -->
+<section class="view documents-view is-hidden" id="documents-view">
+  <div class="page-heading documents-heading">
+    <div>
+      <div class="eyebrow">
+        <span class="eyebrow-line"></span> ADMINISTRATION
+      </div>
+      <h1>Dokumentbibliotek</h1>
+      <p>Hantera underlagen som formar svaren i personalhandboken.</p>
+    </div>
+    <div class="document-total">
+      <span id="document-total">0</span><small>DOKUMENT</small>
+    </div>
+  </div>
+
+  <div class="documents-layout">
+    <div class="document-main">
+      <div class="upload-panel" id="upload-panel">
+        <input
+          id="file-input"
+          class="sr-only"
+          type="file"
+          accept=".pdf,.doc,.docx,.md,.txt"
+        />
+        <div class="upload-symbol" aria-hidden="true">＋</div>
+        <div class="upload-copy">
+          <strong>Dra in dokument här</strong
+          ><span
+            >eller
+            <button class="inline-button" type="button" id="browse-button">
+              välj från datorn
+            </button></span
+          >
+        </div>
+        <div class="upload-meta">
+          PDF, DOC, DOCX, MD, TXT <span>·</span> max 20 MB
+        </div>
+        <div class="upload-progress is-hidden" id="upload-progress">
+          <span></span>
+        </div>
+      </div>
+
+      <div class="list-heading">
+        <div>
+          <span class="section-kicker">UPPLADDADE DOKUMENT</span
+          ><span class="list-subtitle"
+            >Uppdateras direkt när du gör en ändring</span
+          >
+        </div>
+        <span class="list-sort">SENAST ÄNDRAD <span>↓</span></span>
+      </div>
+      <div class="document-list" id="document-list">
+        <div class="empty-library">
+          <span class="empty-library-mark">▤</span
+          ><strong>Biblioteket är tomt</strong>
+          <p>Ladda upp ett dokument för att komma igång.</p>
+        </div>
+      </div>
+      <div class="inline-alert is-hidden" id="inline-alert" role="status"></div>
+    </div>
+  </div>
+</section>

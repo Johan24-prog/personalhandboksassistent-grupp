@@ -1,0 +1,69 @@
+<!-- Status för tjänsterna som driver assistenten och dokumentflödet. -->
+<section class="view sources-view is-hidden" id="sources-view">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">
+        <span class="eyebrow-line"></span> ADMINISTRATION
+      </div>
+      <h1>Källor och status</h1>
+      <p>Tjänsterna nedan läses från din lokala `.env`-fil.</p>
+    </div>
+  </div>
+
+  <div class="sources-layout">
+    <div class="admin-aside">
+      <div class="aside-heading">
+        <span class="section-kicker">ANSLUTNA TJÄNSTER</span
+        ><span class="aside-icon">⌘</span>
+      </div>
+      <p class="aside-description">
+        Status för lagring, sökindex och chattmodellen som assistenten använder.
+      </p>
+      <div class="service-list">
+        <div class="service-row">
+          <span class="service-mark storage-mark">B</span
+          ><span class="service-name"
+            >Azure Blob Storage<small>Dokumentlagring</small></span
+          ><span class="service-state" id="storage-state">—</span>
+        </div>
+        <div class="service-row">
+          <span class="service-mark search-mark">⌕</span
+          ><span class="service-name"
+            >Azure AI Search<small>Sökindex</small></span
+          ><span class="service-state" id="search-state">—</span>
+        </div>
+        <div class="service-row">
+          <span class="service-mark openai-mark">✳</span
+          ><span class="service-name"
+            >Azure OpenAI<small>Chattdeployment</small></span
+          ><span class="service-state" id="openai-state">—</span>
+        </div>
+      </div>
+    </div>
+
+    <aside class="sources-aside">
+      <div class="prototype-note">
+        <span class="note-mark">i</span>
+        <p>
+          <strong>Prototypstatus</strong>Filer och index finns i minnet och
+          försvinner när servern startas om. Blob Storage och AI Search är ännu
+          inte inkopplade i dokumentflödet.
+        </p>
+      </div>
+      <div class="format-legend">
+        <span class="section-kicker">FORMATSTÖD</span>
+        <div>
+          <span class="legend-dot ready"></span
+          ><span>MD, TXT <small>läses av assistenten</small></span>
+        </div>
+        <div>
+          <span class="legend-dot pending"></span
+          ><span
+            >PDF, Word
+            <small>uppladdning klar, textutvinning återstår</small></span
+          >
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>

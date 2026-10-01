@@ -1,0 +1,12 @@
+/* Importordningen lägger grundregler först och mobilanpassning sist. */
+@import url("/styles/tokens.css");
+@import url("/styles/layout.css");
+@import url("/styles/view.css");
+@import url("/styles/overview.css");
+@import url("/styles/chat.css");
+@import url("/styles/sources.css");
+@import url("/styles/uploads.css");
+@import url("/styles/documents.css");
+@import url("/styles/admin.css");
+@import url("/styles/dialog.css");
+@import url("/styles/responsive.css");
