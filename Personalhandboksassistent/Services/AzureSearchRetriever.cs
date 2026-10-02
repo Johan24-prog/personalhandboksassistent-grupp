@@ -7,7 +7,7 @@ namespace Personalhandboksassistent.Services;
 // Söker fram de mest relevanta dokumenten i Azure AI Search. Indexern knäcker PDF och Word åt oss.
 public sealed class AzureSearchRetriever(SearchClient searchClient, IConfiguration configuration) : IDocumentRetriever
 {
-    private const int MaximumExcerptLength = 8_000;
+    private const int MaximumExcerptLength = 4_000;
     private const int MaximumSourceCount = 5;
     private const string ContentField = "content";
     private const string NameField = "metadata_storage_name";
@@ -16,7 +16,14 @@ public sealed class AzureSearchRetriever(SearchClient searchClient, IConfigurati
         string question,
         CancellationToken cancellationToken)
     {
-        var options = new SearchOptions { Size = MaximumSourceCount };
+        var options = new SearchOptions
+        {
+            Size = MaximumSourceCount,
+            HighlightPreTag = "<search-hit>",
+            HighlightPostTag = "</search-hit>"
+        };
+
+        options.HighlightFields.Add(ContentField);
         options.Select.Add(ContentField);
         options.Select.Add(NameField);
 
@@ -39,11 +46,50 @@ public sealed class AzureSearchRetriever(SearchClient searchClient, IConfigurati
                 continue;
             }
 
-            var excerpt = content.Length > MaximumExcerptLength ? content[..MaximumExcerptLength] : content;
+            var excerpt = GetRelevantExcerpt(result, content);
+
+            if (string.IsNullOrWhiteSpace(excerpt))
+            {
+                continue;
+            }
+
             sources.Add(new DocumentSource(name, excerpt));
         }
 
         return sources;
+    }
+    private static string? GetRelevantExcerpt(
+    SearchResult<SearchDocument> result,
+    string content)
+    {
+        if (result.Highlights is not null
+            && result.Highlights.TryGetValue(ContentField, out var highlights))
+        {
+            var passages = highlights
+                .Select(text => text
+                    .Replace("<search-hit>", "")
+                    .Replace("</search-hit>", "")
+                    .Trim())
+                .Where(text => !string.IsNullOrWhiteSpace(text))
+                .Distinct()
+                .Take(5);
+
+            // Markera att utdragen kan komma från olika delar av dokumentet.
+            var excerpt = string.Join("\n\n[...]\n\n", passages);
+
+            if (!string.IsNullOrWhiteSpace(excerpt))
+            {
+                return excerpt.Length > MaximumExcerptLength
+                    ? excerpt[..MaximumExcerptLength]
+                    : excerpt;
+            }
+        }
+
+        // Ett kort dokument får plats i sin helhet.
+        // För långa dokument behöver vi ett relevant utdrag.
+        return content.Length <= MaximumExcerptLength
+            ? content
+            : null;
     }
 
     // Indexern hanterar alla uppladdningsbara format.
