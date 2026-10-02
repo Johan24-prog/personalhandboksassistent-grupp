@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using Personalhandboksassistent.Configuration;
 using Personalhandboksassistent.Endpoints;
 using Personalhandboksassistent.Models;
@@ -9,7 +10,17 @@ DotEnvLoader.LoadFromCurrentDirectory();
 var builder = WebApplication.CreateBuilder(args);
 
 // Tjänsterna gör arbetet åt API-rutterna och kan bytas ut eller testas separat.
-builder.Services.AddSingleton<IDocumentStore, InMemoryDocumentStore>();
+var storageConnectionString = builder.Configuration["AZURE_STORAGE_CONNECTION_STRING"];
+var storageContainerName = builder.Configuration["AZURE_STORAGE_CONTAINER_NAME"];
+if (!string.IsNullOrWhiteSpace(storageConnectionString) && !string.IsNullOrWhiteSpace(storageContainerName))
+{
+    builder.Services.AddSingleton(new BlobContainerClient(storageConnectionString, storageContainerName));
+    builder.Services.AddSingleton<IDocumentStore, BlobDocumentStore>();
+}
+else
+{
+    builder.Services.AddSingleton<IDocumentStore, InMemoryDocumentStore>();
+}
 builder.Services.AddScoped<DocumentService>();
 builder.Services.AddHttpClient<AzureOpenAiService>();
 

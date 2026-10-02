@@ -15,5 +15,5 @@ public sealed record DocumentResponse(
         document.Type,
         document.Size,
         document.UpdatedAt,
-        document.Content is not null);
+        document.IsPlainText);
 }

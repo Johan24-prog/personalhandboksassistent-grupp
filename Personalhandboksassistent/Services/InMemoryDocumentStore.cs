@@ -3,17 +3,40 @@ using Personalhandboksassistent.Models;
 
 namespace Personalhandboksassistent.Services;
 
-// En enkel tillfällig lagring som ersätts med Blob Storage senare.
 public sealed class InMemoryDocumentStore : IDocumentStore
 {
-    private readonly ConcurrentDictionary<string, StoredDocument> _documents = new();
+    private readonly ConcurrentDictionary<string, (StoredDocument Document, byte[] Content)> _documents =
+        new(StringComparer.OrdinalIgnoreCase);
 
-    public IReadOnlyCollection<StoredDocument> GetAll() => _documents.Values.ToArray();
+    public Task<IReadOnlyCollection<StoredDocument>> GetAllAsync(CancellationToken cancellationToken) =>
+        Task.FromResult<IReadOnlyCollection<StoredDocument>>(
+            _documents.Values.Select(entry => entry.Document).ToArray());
 
-    public bool TryGet(string id, out StoredDocument? document) =>
-        _documents.TryGetValue(id, out document);
+    public Task<StoredDocument?> GetAsync(string id, CancellationToken cancellationToken) =>
+        Task.FromResult(_documents.TryGetValue(id, out var entry) ? entry.Document : null);
 
-    public void Save(StoredDocument document) => _documents[document.Id] = document;
+    public async Task<StoredDocument> SaveAsync(
+        string fileName,
+        Stream content,
+        CancellationToken cancellationToken)
+    {
+        using var buffer = new MemoryStream();
+        await content.CopyToAsync(buffer, cancellationToken);
 
-    public bool Remove(string id) => _documents.TryRemove(id, out _);
+        var document = new StoredDocument(
+            fileName,
+            fileName,
+            StoredDocument.TypeFromFileName(fileName),
+            buffer.Length,
+            DateTimeOffset.UtcNow);
+        _documents[fileName] = (document, buffer.ToArray());
+        return document;
+    }
+
+    public Task<Stream?> OpenReadAsync(string id, CancellationToken cancellationToken) =>
+        Task.FromResult<Stream?>(
+            _documents.TryGetValue(id, out var entry) ? new MemoryStream(entry.Content, writable: false) : null);
+
+    public Task<bool> RemoveAsync(string id, CancellationToken cancellationToken) =>
+        Task.FromResult(_documents.TryRemove(id, out _));
 }

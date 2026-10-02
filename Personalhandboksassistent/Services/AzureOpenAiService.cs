@@ -22,13 +22,8 @@ public sealed class AzureOpenAiService(
         string question,
         CancellationToken cancellationToken)
     {
-        var sources = documentStore.GetAll()
-            .Where(document => document.Content is not null)
-            .OrderByDescending(document => document.UpdatedAt)
-            .Take(MaximumSourceCount)
-            .ToArray();
-
-        if (sources.Length == 0)
+        var sources = await ReadSourcesAsync(cancellationToken);
+        if (sources.Count == 0)
         {
             return AssistantAnswerResult.Failure(
                 StatusCodes.Status409Conflict,
@@ -79,6 +74,31 @@ public sealed class AzureOpenAiService(
         }
     }
 
+    private async Task<IReadOnlyList<DocumentSource>> ReadSourcesAsync(CancellationToken cancellationToken)
+    {
+        var documents = (await documentStore.GetAllAsync(cancellationToken))
+            .Where(document => document.IsPlainText)
+            .OrderByDescending(document => document.UpdatedAt)
+            .Take(MaximumSourceCount);
+
+        var sources = new List<DocumentSource>();
+        foreach (var document in documents)
+        {
+            await using var stream = await documentStore.OpenReadAsync(document.Id, cancellationToken);
+            if (stream is null)
+            {
+                continue;
+            }
+
+            using var reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true);
+            var buffer = new char[MaximumExcerptLength];
+            var length = await reader.ReadBlockAsync(buffer, cancellationToken);
+            sources.Add(new DocumentSource(document.Name, new string(buffer, 0, length)));
+        }
+
+        return sources;
+    }
+
     private string BuildRequestUri(string endpoint, string deployment)
     {
         var apiVersion = configuration["AZURE_OPENAI_API_VERSION"] ?? "2024-10-21";
@@ -87,7 +107,7 @@ public sealed class AzureOpenAiService(
 
     private static JsonContent CreateRequestContent(
         string question,
-        IReadOnlyCollection<StoredDocument> sources)
+        IReadOnlyCollection<DocumentSource> sources)
     {
         var context = BuildContext(sources);
         return JsonContent.Create(new
@@ -101,7 +121,7 @@ public sealed class AzureOpenAiService(
         });
     }
 
-    private static string BuildContext(IEnumerable<StoredDocument> sources)
+    private static string BuildContext(IEnumerable<DocumentSource> sources)
     {
         // Begränsa mängden text som skickas och behåll filnamnet vid varje utdrag.
         var context = new StringBuilder();
@@ -113,7 +133,7 @@ public sealed class AzureOpenAiService(
                 break;
             }
 
-            var content = source.Content!;
+            var content = source.Text;
             var excerptLength = Math.Min(content.Length, Math.Min(MaximumExcerptLength, remaining));
             context.AppendLine($"[Källa: {source.Name}]");
             context.AppendLine(content[..excerptLength]);
@@ -134,6 +154,8 @@ public sealed class AzureOpenAiService(
             .GetProperty("content")
             .GetString();
     }
+
+    private sealed record DocumentSource(string Name, string Text);
 }
 
 // Svaret eller ett fel som endpointen kan omvandla till HTTP-status.

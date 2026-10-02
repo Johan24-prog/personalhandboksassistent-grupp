@@ -1,10 +1,14 @@
 namespace Personalhandboksassistent.Models;
 
-// Metadata och läsbar text för ett dokument i prototypens minneslager.
 public sealed record StoredDocument(
     string Id,
     string Name,
     string Type,
     long Size,
-    DateTimeOffset UpdatedAt,
-    string? Content);
+    DateTimeOffset UpdatedAt)
+{
+    public bool IsPlainText => Type is "MD" or "TXT";
+
+    public static string TypeFromFileName(string fileName) =>
+        Path.GetExtension(fileName).TrimStart('.').ToUpperInvariant();
+}
