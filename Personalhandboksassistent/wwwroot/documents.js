@@ -80,6 +80,10 @@ export function initializeDocuments() {
     await upload(elements.fileInput.files[0], replaceId);
     elements.fileInput.value = "";
   });
+  
+  elements.fileInput.addEventListener("cancel", () => {
+  delete elements.fileInput.dataset.replaceId;
+  });
 
   elements.uploadPanel.addEventListener("dragover", (event) => {
     event.preventDefault();
