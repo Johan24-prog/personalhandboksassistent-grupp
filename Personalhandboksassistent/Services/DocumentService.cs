@@ -1,13 +1,10 @@
-using System.Text;
 using Personalhandboksassistent.Models;
 
 namespace Personalhandboksassistent.Services;
 
-// Validerar uppladdningar och omvandlar läsbara filer till dokumentposter.
 public sealed class DocumentService(IDocumentStore documentStore)
 {
     private const long MaximumFileSize = 20 * 1024 * 1024;
-    private const int MaximumTextLength = 50_000;
 
     private static readonly HashSet<string> AllowedExtensions = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -36,46 +33,31 @@ public sealed class DocumentService(IDocumentStore documentStore)
             return DocumentSaveResult.Failure("Tillåtna format är PDF, Word, Markdown och ren text.");
         }
 
-        // PDF och Word sparas som dokumentposter, men textutvinning är inte inkopplad ännu.
-        var content = await ReadTextContentAsync(file, extension, cancellationToken);
-        var id = replacementId ?? Guid.NewGuid().ToString("N");
-        var document = new StoredDocument(
-            id,
-            fileName,
-            extension.TrimStart('.').ToUpperInvariant(),
-            file.Length,
-            DateTimeOffset.UtcNow,
-            content);
-
-        documentStore.Save(document);
-        return DocumentSaveResult.Success(document);
-    }
-
-    private static async Task<string?> ReadTextContentAsync(
-        IFormFile file,
-        string extension,
-        CancellationToken cancellationToken)
-    {
-        var isTextFile = extension.Equals(".txt", StringComparison.OrdinalIgnoreCase)
-            || extension.Equals(".md", StringComparison.OrdinalIgnoreCase);
-        if (!isTextFile)
+        var isSameDocument = string.Equals(fileName, replacementId, StringComparison.OrdinalIgnoreCase);
+        if (!isSameDocument && await documentStore.GetAsync(fileName, cancellationToken) is not null)
         {
-            return null;
+            return DocumentSaveResult.Failure(
+                $"Det finns redan ett dokument med namnet {fileName}. Använd Ersätt på det dokumentet i stället.",
+                StatusCodes.Status409Conflict);
         }
 
-        using var reader = new StreamReader(
-            file.OpenReadStream(),
-            Encoding.UTF8,
-            detectEncodingFromByteOrderMarks: true);
-        var text = await reader.ReadToEndAsync(cancellationToken);
-        return text[..Math.Min(text.Length, MaximumTextLength)];
+        await using var content = file.OpenReadStream();
+        var document = await documentStore.SaveAsync(fileName, content, cancellationToken);
+
+        if (replacementId is not null && !isSameDocument)
+        {
+            await documentStore.RemoveAsync(replacementId, cancellationToken);
+        }
+
+        return DocumentSaveResult.Success(document);
     }
 }
 
-// Antingen det sparade dokumentet eller ett begripligt valideringsfel.
-public sealed record DocumentSaveResult(StoredDocument? Document, string? Error)
+public sealed record DocumentSaveResult(StoredDocument? Document, string? Error, int StatusCode)
 {
-    public static DocumentSaveResult Success(StoredDocument document) => new(document, null);
+    public static DocumentSaveResult Success(StoredDocument document) =>
+        new(document, null, StatusCodes.Status200OK);
 
-    public static DocumentSaveResult Failure(string error) => new(null, error);
+    public static DocumentSaveResult Failure(string error, int statusCode = StatusCodes.Status400BadRequest) =>
+        new(null, error, statusCode);
 }
