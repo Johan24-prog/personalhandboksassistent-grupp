@@ -45,22 +45,22 @@
       <div class="prototype-note">
         <span class="note-mark">i</span>
         <p>
-          <strong>Prototypstatus</strong>Filer och index finns i minnet och
-          försvinner när servern startas om. Blob Storage och AI Search är ännu
-          inte inkopplade i dokumentflödet.
+          <strong>Lagring och sökning</strong>Utan Blob Storage sparas filerna
+          i minnet och försvinner vid omstart. Med AI Search indexeras
+          ändringar automatiskt efter uppladdning, ersättning och borttagning.
         </p>
       </div>
       <div class="format-legend">
         <span class="section-kicker">FORMATSTÖD</span>
         <div>
           <span class="legend-dot ready"></span
-          ><span>MD, TXT <small>läses av assistenten</small></span>
+          ><span>MD, TXT <small>läses alltid av assistenten</small></span>
         </div>
         <div>
           <span class="legend-dot pending"></span
           ><span
             >PDF, Word
-            <small>uppladdning klar, textutvinning återstår</small></span
+            <small>läses när Azure AI Search är konfigurerat</small></span
           >
         </div>
       </div>

@@ -9,11 +9,11 @@ public sealed record DocumentResponse(
     DateTimeOffset UpdatedAt,
     bool Searchable)
 {
-    public static DocumentResponse From(StoredDocument document) => new(
+    public static DocumentResponse From(StoredDocument document, bool searchable) => new(
         document.Id,
         document.Name,
         document.Type,
         document.Size,
         document.UpdatedAt,
-        document.IsPlainText);
+        searchable);
 }

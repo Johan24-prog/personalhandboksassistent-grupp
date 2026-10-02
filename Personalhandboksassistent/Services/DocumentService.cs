@@ -2,7 +2,7 @@ using Personalhandboksassistent.Models;
 
 namespace Personalhandboksassistent.Services;
 
-public sealed class DocumentService(IDocumentStore documentStore)
+public sealed class DocumentService(IDocumentStore documentStore, IIndexRefresher indexRefresher)
 {
     private const long MaximumFileSize = 20 * 1024 * 1024;
 
@@ -49,7 +49,19 @@ public sealed class DocumentService(IDocumentStore documentStore)
             await documentStore.RemoveAsync(replacementId, cancellationToken);
         }
 
+        await indexRefresher.RefreshAsync(cancellationToken);
         return DocumentSaveResult.Success(document);
+    }
+
+    public async Task<bool> RemoveAsync(string id, CancellationToken cancellationToken)
+    {
+        if (!await documentStore.RemoveAsync(id, cancellationToken))
+        {
+            return false;
+        }
+
+        await indexRefresher.RefreshAsync(cancellationToken);
+        return true;
     }
 }
 

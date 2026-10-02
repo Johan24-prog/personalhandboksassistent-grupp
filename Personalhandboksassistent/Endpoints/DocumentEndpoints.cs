@@ -10,14 +10,18 @@ public static class DocumentEndpoints
     {
         var documents = endpoints.MapGroup("/api/documents");
 
-        documents.MapGet("", async (IDocumentStore store, CancellationToken cancellationToken) =>
+        documents.MapGet("", async (
+            IDocumentStore store,
+            IDocumentRetriever retriever,
+            CancellationToken cancellationToken) =>
             Results.Ok((await store.GetAllAsync(cancellationToken))
                 .OrderByDescending(document => document.UpdatedAt)
-                .Select(DocumentResponse.From)));
+                .Select(document => DocumentResponse.From(document, retriever.CanRead(document)))));
 
         documents.MapPost("", async (
             HttpRequest request,
             DocumentService service,
+            IDocumentRetriever retriever,
             CancellationToken cancellationToken) =>
         {
             var formResult = await ReadFormAsync(request, cancellationToken);
@@ -30,7 +34,7 @@ public static class DocumentEndpoints
                 formResult.Form!.Files.GetFile("file"),
                 replacementId: null,
                 cancellationToken);
-            return ToHttpResult(result);
+            return ToHttpResult(result, retriever);
         });
 
         documents.MapPut("/{id}", async (
@@ -38,6 +42,7 @@ public static class DocumentEndpoints
             HttpRequest request,
             IDocumentStore store,
             DocumentService service,
+            IDocumentRetriever retriever,
             CancellationToken cancellationToken) =>
         {
             if (await store.GetAsync(id, cancellationToken) is null)
@@ -55,11 +60,11 @@ public static class DocumentEndpoints
                 formResult.Form!.Files.GetFile("file"),
                 id,
                 cancellationToken);
-            return ToHttpResult(result);
+            return ToHttpResult(result, retriever);
         });
 
-        documents.MapDelete("/{id}", async (string id, IDocumentStore store, CancellationToken cancellationToken) =>
-            await store.RemoveAsync(id, cancellationToken) ? Results.NoContent() : Results.NotFound());
+        documents.MapDelete("/{id}", async (string id, DocumentService service, CancellationToken cancellationToken) =>
+            await service.RemoveAsync(id, cancellationToken) ? Results.NoContent() : Results.NotFound());
 
         return endpoints;
     }
@@ -77,14 +82,14 @@ public static class DocumentEndpoints
         return new FormReadResult(form, null);
     }
 
-    private static IResult ToHttpResult(DocumentSaveResult result)
+    private static IResult ToHttpResult(DocumentSaveResult result, IDocumentRetriever retriever)
     {
         if (result.Error is not null)
         {
             return Results.Json(new { error = result.Error }, statusCode: result.StatusCode);
         }
 
-        return Results.Ok(DocumentResponse.From(result.Document!));
+        return Results.Ok(DocumentResponse.From(result.Document!, retriever.CanRead(result.Document!)));
     }
 
     private sealed record FormReadResult(IFormCollection? Form, string? Error);
