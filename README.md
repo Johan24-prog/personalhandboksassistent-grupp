@@ -28,6 +28,18 @@ AZURE_OPENAI_EMBEDDING_DEPLOYMENT=<namn-på-embeddingdeployment>
 
 `AZURE_OPENAI_API_VERSION` är valfri och standardvärdet är `2024-10-21`.
 
-Uppladdade dokument sparas i blobcontainern med filnamnet som namn och id. Om Blob Storage inte är konfigurerat används en lagring i minnet, och då försvinner dokumenten vid omstart. Aktivera mjuk borttagning för blobbar på lagringskontot så att AI Search kan upptäcka borttagna dokument. AI Search är ännu inte inkopplat i koden, dess variabler används för närvarande bara för att visa konfigurationsstatus.
+Uppladdade dokument sparas i blobcontainern med filnamnet som namn och id. Om Blob Storage inte är konfigurerat används en lagring i minnet, och då försvinner dokumenten vid omstart.
+
+## Azure AI Search
+
+När `AZURE_SEARCH_ENDPOINT`, `AZURE_SEARCH_API_KEY` och `AZURE_SEARCH_INDEX_NAME` är satta hämtar assistenten underlaget från sökindexet, så att även PDF och Word kan besvaras. Utan dem läser assistenten bara Markdown- och textfiler direkt ur lagringen.
+
+Uppsättning i Azure-portalen:
+
+1. Aktivera mjuk borttagning för blobbar på lagringskontot.
+2. Kör **Import data** på söktjänsten med blobcontainern som datakälla och slå på spårning av borttagningar (native blob soft delete). Guiden skapar index och indexer, och indexern knäcker PDF och Word.
+3. Indexet måste ha fälten `content` (sökbar, hämtbar) och `metadata_storage_name` (hämtbar).
+4. Ange indexerns namn i `AZURE_SEARCH_INDEXER_NAME`. Appen startar då indexern direkt efter varje uppladdning, ersättning och borttagning, så ändringar syns utan omstart eller manuell omindexering. Lägg gärna även ett schema på indexern (t.ex. var 5:e minut) som reserv.
+5. `AZURE_SEARCH_SEMANTIC_CONFIG` är valfri; om den anges används semantisk rankning.
 
 TIP: Hård uppdatering i din webbläsare en gång för att tömma den gamla cachade versionen. (Ctrl+Shift+R eller Ctrl+F5)

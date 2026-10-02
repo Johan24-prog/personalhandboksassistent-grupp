@@ -154,14 +154,14 @@ function renderDocuments(elements, documents) {
     : '<div class="empty-library"><span class="empty-library-mark">▤</span><strong>Biblioteket är tomt</strong><p>Ladda upp ett dokument för att komma igång.</p></div>';
   elements.sources.innerHTML = readable.length
     ? readable.map(renderSource).join("")
-    : '<div class="empty-source">Lägg till Markdown- eller textdokument för att ge assistenten underlag.</div>';
+    : '<div class="empty-source">Lägg till dokument för att ge assistenten underlag.</div>';
 }
 
 function renderDocument(item) {
   const type = escapeHtml(item.type.toLowerCase());
   const status = item.searchable
     ? '<span class="readable-tag">Läsbart underlag</span>'
-    : '<span class="pending-tag">Kräver textutvinning</span>';
+    : '<span class="pending-tag">Kräver AI Search</span>';
   const name = escapeHtml(item.name);
   return `<article class="document-row">
     <div class="document-info"><span class="document-file-icon type-${type}">${fileLabels[item.type] || type.toUpperCase()}</span>
