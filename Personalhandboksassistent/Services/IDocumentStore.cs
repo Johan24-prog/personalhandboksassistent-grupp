@@ -5,11 +5,16 @@ namespace Personalhandboksassistent.Services;
 // Beskriver hur dokument hämtas och ändras utan att låsa API:t till en viss lagring.
 public interface IDocumentStore
 {
-    IReadOnlyCollection<StoredDocument> GetAll();
+    Task<IReadOnlyCollection<StoredDocument>> GetAllAsync(CancellationToken cancellationToken);
 
-    bool TryGet(string id, out StoredDocument? document);
+    Task<StoredDocument?> GetAsync(string id, CancellationToken cancellationToken);
 
-    void Save(StoredDocument document);
+    Task<StoredDocument> SaveAsync(
+        string fileName,
+        Stream content,
+        CancellationToken cancellationToken);
 
-    bool Remove(string id);
+    Task<Stream?> OpenReadAsync(string id, CancellationToken cancellationToken);
+
+    Task<bool> RemoveAsync(string id, CancellationToken cancellationToken);
 }
