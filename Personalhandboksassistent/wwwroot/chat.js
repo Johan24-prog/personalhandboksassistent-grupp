@@ -5,6 +5,7 @@ export function initializeChat() {
   const conversation = document.querySelector("#conversation");
   const form = document.querySelector("#chat-form");
   const input = document.querySelector("#question-input");
+  let isSending = false;
 
   document.querySelectorAll(".suggestion").forEach((button) => {
     button.addEventListener("click", () => {
@@ -16,7 +17,9 @@ export function initializeChat() {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const question = input.value.trim();
-    if (!question) return;
+    if (!question || isSending) return;
+
+    isSending = true;
 
     appendMessage(conversation, question, "user-message");
     input.value = "";
@@ -38,8 +41,9 @@ export function initializeChat() {
       pending.remove();
       appendMessage(conversation, error.message, "assistant-message");
     } finally {
-      sendButton.disabled = false;
-      input.focus();
+    isSending = false;
+    sendButton.disabled = false;
+    input.focus();
     }
   });
 
