@@ -10,9 +10,10 @@ public static class DocumentEndpoints
     {
         var documents = endpoints.MapGroup("/api/documents");
 
-        documents.MapGet("", (IDocumentStore store) => Results.Ok(store.GetAll()
-            .OrderByDescending(document => document.UpdatedAt)
-            .Select(DocumentResponse.From)));
+        documents.MapGet("", async (IDocumentStore store, CancellationToken cancellationToken) =>
+            Results.Ok((await store.GetAllAsync(cancellationToken))
+                .OrderByDescending(document => document.UpdatedAt)
+                .Select(DocumentResponse.From)));
 
         documents.MapPost("", async (
             HttpRequest request,
@@ -39,7 +40,7 @@ public static class DocumentEndpoints
             DocumentService service,
             CancellationToken cancellationToken) =>
         {
-            if (!store.TryGet(id, out _))
+            if (await store.GetAsync(id, cancellationToken) is null)
             {
                 return Results.NotFound(new { error = "Dokumentet finns inte längre." });
             }
@@ -57,8 +58,8 @@ public static class DocumentEndpoints
             return ToHttpResult(result);
         });
 
-        documents.MapDelete("/{id}", (string id, IDocumentStore store) =>
-            store.Remove(id) ? Results.NoContent() : Results.NotFound());
+        documents.MapDelete("/{id}", async (string id, IDocumentStore store, CancellationToken cancellationToken) =>
+            await store.RemoveAsync(id, cancellationToken) ? Results.NoContent() : Results.NotFound());
 
         return endpoints;
     }
@@ -80,7 +81,7 @@ public static class DocumentEndpoints
     {
         if (result.Error is not null)
         {
-            return Results.BadRequest(new { error = result.Error });
+            return Results.Json(new { error = result.Error }, statusCode: result.StatusCode);
         }
 
         return Results.Ok(DocumentResponse.From(result.Document!));
