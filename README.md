@@ -19,6 +19,8 @@ AZURE_STORAGE_CONTAINER_NAME=<containernamn>
 AZURE_SEARCH_ENDPOINT=https://<sökresurs>.search.windows.net
 AZURE_SEARCH_API_KEY=<api-nyckel>
 AZURE_SEARCH_INDEX_NAME=<indexnamn>
+AZURE_SEARCH_SEMANTIC_CONFIG=
+AZURE_SEARCH_INDEXER_NAME=
 
 # Reserverad för framtida vektorsökning; används inte ännu
 AZURE_OPENAI_EMBEDDING_DEPLOYMENT=<namn-på-embeddingdeployment>
